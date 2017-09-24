@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^1.28.0",
+    "@types/classnames": "^2.2.3",
     "@types/pure-render-decorator": "^0.2.28",
     "@types/react-addons-css-transition-group": "^15.0.3",
     "@types/react-redux": "^5.0.8",
+    "classnames": "^2.2.5",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1",
