@@ -3,6 +3,7 @@ import './App.css';
 import StyledStateControlWidget from './features/dashboard/ControlWidget';
 import { Provider } from 'react-redux';
 import { store } from './Store';
+import { ManageServersPopover } from './features/mqttServers/ManageServersPopover';
 
 const logo = require('./logo.svg');
 
@@ -14,6 +15,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
+        <ManageServersPopover />  
           <Provider store={store}>
           <StyledStateControlWidget enabled={false}/>
           </Provider>

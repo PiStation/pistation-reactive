@@ -24,7 +24,7 @@ class StateControlWidget extends React.Component<Props, ControlWidgetState> {
   render() {
     return (
       <Switch enabled={this.props.enabled} onSwitchChange={() => this.onSwitchChange()}>
-        <SwitchIndicator indicate={this.props.enabled ? true : 'error'} className="indicator-align-right"/>
+        <SwitchIndicator indicate={this.props.enabled ? true : false} className="indicator-align-right"/>
       </Switch>
     );
   }
