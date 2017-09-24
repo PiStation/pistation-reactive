@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../actions/';
-import { Switch } from '../../components/switch/Switch';
+import { Switch } from '../../components/switch';
 import { ControlWidgetState } from '../../types/index';
 
 type Props = {
@@ -24,7 +24,7 @@ class StateControlWidget extends React.Component<Props, ControlWidgetState> {
   render() {
     return (
       <Switch enabled={this.props.enabled} onSwitchChange={() => this.onSwitchChange()}>
-        <SwitchIndicator indicate={this.props.enabled ? true : false} className="indicator-align-right"/>
+        <SwitchIndicator indicate={this.props.enabled ? true : 'error'} className="indicator-align-right"/>
       </Switch>
     );
   }
