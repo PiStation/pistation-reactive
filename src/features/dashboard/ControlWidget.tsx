@@ -29,7 +29,7 @@ class StateControlWidget extends React.Component<Props, ControlWidgetState> {
          onChange={() => this.onSwitchChange()}
         />
         <Toggler for="toggle" enabled={this.props.enabled ? true : false} />
-        <StyledSwitchIndicator indicate={this.props.enabled ? true : false}/>
+        <SwitchIndicator indicate={this.props.enabled ? true : false}/>
       </StyledSwitch>
     );
   }
@@ -141,11 +141,8 @@ interface InidcatorProps {
   className?: string;
 }
 
-const SwitchIndicator: React.StatelessComponent<InidcatorProps> = props => (
-  <span className={props.indicate ? 'indicate' : ''}>&nbsp;</span>);
-
-const StyledSwitchIndicator = styled(SwitchIndicator)`
-content: "";
+const Indicator = styled.span`
+  content: "";
 display: inline-block;
 position: absolute;
 right: 0px;
@@ -165,7 +162,7 @@ inset 0 -5px 5px rgba(0,0,0,0.5);
  -webkit-transition: all .5s ease;
 transition: all .5s ease;
 z-index: 2;
-.indicate {
+&.indicate {
   content: "";
 	display: inline-block;
 	position: absolute;
@@ -186,6 +183,9 @@ box-shadow:
   inset 0 -3px 8px rgba(185,231,253,0.5);
 }
 `;
+
+const SwitchIndicator: React.StatelessComponent<InidcatorProps> = props => (
+  <Indicator className={props.indicate ? 'indicate' : ''}>&nbsp;</Indicator>);
 
 interface ToggleElementProps {
   enabled: boolean;
