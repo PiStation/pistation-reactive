@@ -6,8 +6,14 @@ export interface IncrementControl {
 export interface DecrementControl {
   type: constants.DECREMENT_CONTROL;
 }
+export interface EnableControl {
+  type: constants.ENABLE_CONTROL;
+}
+export interface DisableControl {
+  type: constants.DISABLE_CONTROL;
+}
 
-export type ControlAction = IncrementControl | DecrementControl;
+export type ControlAction = IncrementControl | DecrementControl | EnableControl | DisableControl;
 
 export function incrementControl(): IncrementControl {
   return {
@@ -18,5 +24,15 @@ export function incrementControl(): IncrementControl {
 export function decrementControl(): DecrementControl {
   return {
     type: constants.DECREMENT_CONTROL
+  };
+}
+export function enableControl(): EnableControl {
+  return {
+    type: constants.ENABLE_CONTROL
+  };
+}
+export function disableControl(): DisableControl {
+  return {
+    type: constants.DISABLE_CONTROL
   };
 }
