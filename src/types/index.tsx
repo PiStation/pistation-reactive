@@ -1,5 +1,6 @@
 export interface RootState {
     controlWidget: ControlWidgetState;
+    serverList: MQTTServerConfig[];
 }
 export interface ControlWidgetState {
   enabled: boolean;

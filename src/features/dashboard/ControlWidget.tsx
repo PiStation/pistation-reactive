@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import * as actions from '../../actions/';
 import { Switch } from '../../components/switch';
-import { ControlWidgetState } from '../../types/index';
+import { ControlWidgetState, RootState } from '../../types/index';
 
 type Props = {
   enabled: boolean;
@@ -48,20 +48,19 @@ class StateControlWidget extends React.Component<Props, ControlWidgetState> {
     }
   }
 } 
-export function mapStateToProps({enabled, level}: ControlWidgetState) {
+export function mapStateToProps({controlWidget}: RootState): Props {
   return {
-      enabled,
-      level
+      enabled: controlWidget.enabled,
+      level: controlWidget.level
   };
 }
-export function mapDispatchToProps(dispatch: Dispatch<actions.ControlAction>) {
+export function mapDispatchToProps(dispatch: Dispatch<actions.ControlAction>): Partial<Props> {
   return {
     onIncrement: () => dispatch(actions.incrementControl()),
     onDecrement: () => dispatch(actions.decrementControl()),
     onEnable: () => dispatch(actions.disableControl()),
-    onDisable: () => dispatch(actions.enableControl()),
-
+    onDisable: () => dispatch(actions.enableControl()), 
   };
 }
 
-export default connect<{}, {}, Props>(mapStateToProps, mapDispatchToProps)(StateControlWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(StateControlWidget);

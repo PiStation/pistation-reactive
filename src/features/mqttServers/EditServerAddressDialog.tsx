@@ -5,12 +5,14 @@ interface ManageServersPopoverState {
     isOpen: boolean;
     server: Partial<MQTTServerConfig>;    
 }
- 
-export class AddServerListItem extends React.Component<{}, ManageServersPopoverState> {
+interface AddServerListItemProps {
+    onClose: (server: MQTTServerConfig) => void;
+}
+export class AddServerListItem extends React.Component<AddServerListItemProps, ManageServersPopoverState> {
     state = { 
         isOpen: false,
         server: {
-            name: 'Default server',
+            name: '',
             address: '',
         }
      };
@@ -22,6 +24,7 @@ export class AddServerListItem extends React.Component<{}, ManageServersPopoverS
                     iconName="new-text-box"
                     onClick={() => this.toggleDialog()}
                     text="New MQTT server"
+                    key="add"
                 />                
                 <Dialog
                     iconName="settings"
@@ -39,12 +42,12 @@ export class AddServerListItem extends React.Component<{}, ManageServersPopoverS
                             <div className="pt-form-content">
                                 <input 
                                     className="pt-input" 
-                                    placeholder="Default server 1" 
-                                    type="text"
                                     name="name"
+                                    placeholder="mqtt://my-mqtt-broker.local" 
+                                    type="text" 
                                     defaultValue={this.state.server.name}
+                                    dir="auto" 
                                     onChange={(e) => this.handleInputChange(e)}
-                                    dir="auto"
                                 />
                                 <div className="pt-form-helper-text">Helper text with details / user feedback</div>
                             </div>
@@ -84,16 +87,20 @@ export class AddServerListItem extends React.Component<{}, ManageServersPopoverS
     }
     private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const target = event.target;
-        const name = target.name;
+        const propname = target.name;
         this.setState({
+            ...this.state,
             server: {
-              [name]: target.value
+                ...this.state.server,
+              [propname]: target.value,
             }
         });
     }
     private dispatchSaveAction = () => {
-        console.log('current state', this.state);
+        console.log('hoi', this.state);
+        this.props.onClose(this.state.server);
         this.toggleDialog();
+        this.setState({server: {}});
     }
     private toggleDialog = () => this.setState({ isOpen: !this.state.isOpen });
 }

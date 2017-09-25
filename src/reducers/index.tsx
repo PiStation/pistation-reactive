@@ -1,10 +1,14 @@
+import { ADD_SERVER_CONFIG } from '../constants/index';
+import { ServerAction } from '../actions/index';
+import { MQTTServerConfig } from '../types/index';
 import { ENABLE_CONTROL, DISABLE_CONTROL } from '../constants';
 import { ControlAction } from '../actions';
 import { ControlWidgetState, RootState } from '../types';
 import { combineReducers } from 'redux';
 
 export const RootReducer = combineReducers<RootState>({
-  controlWidget
+  controlWidget,
+  serverList
 });
 
 const initialState: ControlWidgetState = {
@@ -20,5 +24,15 @@ export function controlWidget(state: ControlWidgetState = initialState, action: 
       return {...state, enabled: false};
     default:
       return state;
+  }
+}
+
+export function serverList(state: MQTTServerConfig[] = [], action: ServerAction): MQTTServerConfig[] {
+  switch (action.type) {
+    case ADD_SERVER_CONFIG: 
+    console.log('adding config to store', action.config);
+    return [... state, action.config];
+    default:
+    return [... state];
   }
 }

@@ -1,7 +1,11 @@
-import { ControlWidgetState } from './types/index';
-import { createStore } from 'redux';
-import { controlWidget } from './reducers/index';
+import { combineReducers, createStore } from 'redux';
+import { controlWidget, serverList } from './reducers/index';
 
-export const store = createStore<ControlWidgetState>(controlWidget);
+const reducer = combineReducers({
+  controlWidget,
+  serverList
+});
+
+export const store = createStore(reducer);
 
 export default store;

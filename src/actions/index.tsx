@@ -1,3 +1,4 @@
+import { MQTTServerConfig } from '../types/index';
 import * as constants from '../constants';
 
 export interface IncrementControl {
@@ -11,6 +12,11 @@ export interface EnableControl {
 }
 export interface DisableControl {
   type: constants.DISABLE_CONTROL;
+}
+
+export interface AddServerConfig {
+  type: constants.ADD_SERVER_CONFIG;
+  config: MQTTServerConfig;
 }
 
 export type ControlAction = IncrementControl | DecrementControl | EnableControl | DisableControl;
@@ -34,5 +40,14 @@ export function enableControl(): EnableControl {
 export function disableControl(): DisableControl {
   return {
     type: constants.DISABLE_CONTROL
+  };
+}
+
+export type ServerAction = AddServerConfig;
+
+export function addServerConfig(server: MQTTServerConfig) {
+  return {
+    type: constants.ADD_SERVER_CONFIG,
+    config: server
   };
 }
