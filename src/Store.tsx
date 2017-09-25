@@ -1,9 +1,9 @@
 import { combineReducers, createStore } from 'redux';
-import { controlWidget, serverList } from './reducers/index';
+import { controlWidget, serverConfig } from './reducers/index';
 
 const reducer = combineReducers({
   controlWidget,
-  serverList
+  serverConfig
 });
 
 export const store = createStore(reducer);

@@ -1,3 +1,4 @@
+import { defaultServerConfig } from '../features/mqttServers/config';
 import { ADD_SERVER_CONFIG } from '../constants/index';
 import { ServerAction } from '../actions/index';
 import { MQTTServerConfig } from '../types/index';
@@ -8,7 +9,7 @@ import { combineReducers } from 'redux';
 
 export const RootReducer = combineReducers<RootState>({
   controlWidget,
-  serverList
+  serverConfig
 });
 
 const initialState: ControlWidgetState = {
@@ -27,12 +28,11 @@ export function controlWidget(state: ControlWidgetState = initialState, action: 
   }
 }
 
-export function serverList(state: MQTTServerConfig[] = [], action: ServerAction): MQTTServerConfig[] {
+export function serverConfig(state: MQTTServerConfig = defaultServerConfig, action: ServerAction): MQTTServerConfig {
   switch (action.type) {
     case ADD_SERVER_CONFIG: 
-    console.log('adding config to store', action.config);
-    return [... state, action.config];
+    return {...action.config};
     default:
-    return [... state];
+    return state;
   }
 }

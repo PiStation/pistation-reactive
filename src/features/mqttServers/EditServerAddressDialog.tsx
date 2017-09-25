@@ -1,14 +1,14 @@
 import { MQTTServerConfig } from '../../types/index';
-import { Button, Dialog, Intent, MenuItem } from '@blueprintjs/core';
+import { Button, Dialog, Intent } from '@blueprintjs/core';
 import * as React from 'react';
 interface ManageServersPopoverState {
     isOpen: boolean;
     server: Partial<MQTTServerConfig>;    
 }
 interface AddServerListItemProps {
-    onClose: (server: MQTTServerConfig) => void;
+    onEdit: (server: MQTTServerConfig) => void;
 }
-export class AddServerListItem extends React.Component<AddServerListItemProps, ManageServersPopoverState> {
+export class EditServerConfigButton extends React.Component<AddServerListItemProps, ManageServersPopoverState> {
     state = { 
         isOpen: false,
         server: {
@@ -20,7 +20,7 @@ export class AddServerListItem extends React.Component<AddServerListItemProps, M
     render() {
         return (
             <div>
-                <MenuItem
+                <Button
                     iconName="new-text-box"
                     onClick={() => this.toggleDialog()}
                     text="New MQTT server"
@@ -76,7 +76,7 @@ export class AddServerListItem extends React.Component<AddServerListItemProps, M
                             <Button text="Cancel" />
                             <Button
                                 intent={Intent.PRIMARY}
-                                onClick={() => this.dispatchSaveAction()}
+                                onClick={() => this.onSave()}
                                 text="Save"
                             />
                         </div>
@@ -96,9 +96,8 @@ export class AddServerListItem extends React.Component<AddServerListItemProps, M
             }
         });
     }
-    private dispatchSaveAction = () => {
-        console.log('hoi', this.state);
-        this.props.onClose(this.state.server);
+    private onSave = () => {
+        this.props.onEdit(this.state.server);
         this.toggleDialog();
         this.setState({server: {}});
     }
