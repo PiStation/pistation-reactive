@@ -31,6 +31,7 @@ export function controlWidget(state: ControlWidgetState = initialState, action: 
 export function serverConfig(state: MQTTServerConfig = defaultServerConfig, action: ServerAction): MQTTServerConfig {
   switch (action.type) {
     case ADD_SERVER_CONFIG: 
+    console.log('new store state', {...action.config});
     return {...action.config};
     default:
     return state;

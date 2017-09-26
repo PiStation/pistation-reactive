@@ -10,6 +10,7 @@ import { MqttClient, connect as connectClient } from 'mqtt';
 interface ServerConnectionProps {
     server: MQTTServerConfig;
     onAddServer?: (server: MQTTServerConfig) => void;
+    onConnect?: (server: MQTTServerConfig) => void;
 }
 
 interface ServerListState {
@@ -25,12 +26,13 @@ function mapStateToProps({serverConfig}: RootState): ServerConnectionProps {
 
 function mapDispatchToProps(dispatch: Dispatch<AddServerConfig>): Partial<ServerConnectionProps> {
     return {
-        onAddServer: (server) => dispatch(addServerConfig(server))
+        onAddServer: (server) => dispatch(addServerConfig(server)),
+        onConnect: (server) => dispatch(addServerConfig(server))
     };
 }
 
 class ServerConnectionIndicator extends React.Component<ServerConnectionProps, ServerListState> {
-    client: MqttClient;
+    mqtt: MqttClient;
     state = {
         editServerAddressDialogOpen: false,
         connected: false
@@ -39,25 +41,29 @@ class ServerConnectionIndicator extends React.Component<ServerConnectionProps, S
     constructor() {
         super();    
     }
-    componentWillMount() {
+    componentWillRender() {
         const {server} = this.props;
-
         if (server) {
             this.connectMqttClient(server.address);
         }
     }
+    
     onClientConnect() {
         this.setState({connected: true});
     }
-    connectMqttClient(serverAddress: string) {
-        this.client = connectClient(serverAddress);
-        this.client.on('connect', () => this.onClientConnect());
-        this.client.on('close', () => this.onDisconnect());
+    componentWillUnmount() {
+        this.mqtt.end();
     }
+    
     onDisconnect() {
         this.setState({
             connected: false
         });
+    }
+    connectMqttClient(serverAddress: string) {
+        this.mqtt = connectClient(serverAddress);
+        this.mqtt.on('connect', () => this.onClientConnect());
+        this.mqtt.on('close', () => this.onDisconnect());
     }
     render() {
         return (
@@ -68,6 +74,7 @@ class ServerConnectionIndicator extends React.Component<ServerConnectionProps, S
         );            
 
     }
+
     currentServerName() {
         if (this.props.server) {
             return (
@@ -84,11 +91,11 @@ class ServerConnectionIndicator extends React.Component<ServerConnectionProps, S
         return `${serverName} ${this.state.connected ? '(Online)' : '(Offline)'}`;
     }
     onServerAdded(server: MQTTServerConfig) {
+        this.setState({connected: false});
+        this.connectMqttClient(server.address);
         if (this.props.onAddServer) {
             this.props.onAddServer(server);
         }
-        this.setState({connected: false});
-        this.connectMqttClient(server.address);
     }
 }
 
