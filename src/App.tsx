@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './App.css';
-import StyledStateControlWidget from './features/dashboard/ControlWidget';
 import { Provider } from 'react-redux';
 import { store } from './Store';
 import ServerConnection  from './features/mqttServers/ServerConnection';
+import ControlBoard from './features/dashboard/Dashboard';
 
 const logo = require('./logo.svg');
 
@@ -17,7 +17,7 @@ class App extends React.Component {
         </div>
           <Provider store={store}>
             <div>
-            <StyledStateControlWidget/>
+            <ControlBoard />
             <ServerConnection />
             </div>
        

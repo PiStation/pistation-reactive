@@ -1,15 +1,16 @@
 import { defaultServerConfig } from '../features/mqttServers/config';
 import { ADD_SERVER_CONFIG } from '../constants/index';
 import { ServerAction } from '../actions/index';
-import { MQTTServerConfig } from '../types/index';
+import { ControlBoardState, MQTTServerConfig } from '../types/index';
 import { ENABLE_CONTROL, DISABLE_CONTROL } from '../constants';
-import { ControlAction } from '../actions';
+import { ControlAction, ControlBoardAction } from '../actions';
 import { ControlWidgetState, RootState } from '../types';
 import { combineReducers } from 'redux';
 
 export const RootReducer = combineReducers<RootState>({
   controlWidget,
-  serverConfig
+  serverConfig, 
+  controlBoard
 });
 
 const initialState: ControlWidgetState = {
@@ -31,9 +32,17 @@ export function controlWidget(state: ControlWidgetState = initialState, action: 
 export function serverConfig(state: MQTTServerConfig = defaultServerConfig, action: ServerAction): MQTTServerConfig {
   switch (action.type) {
     case ADD_SERVER_CONFIG: 
-    console.log('new store state', {...action.config});
     return {...action.config};
     default:
     return state;
   }
+}
+const initialControlBoard: ControlBoardState = {
+  controls: [{
+      topic: 'lights/light1'
+  }]
+};
+export function controlBoard(state: ControlBoardState = initialControlBoard,
+                             action: ControlBoardAction): ControlBoardState {
+  return state;
 }
